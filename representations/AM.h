@@ -39,9 +39,9 @@ void initAMatrix(char *path, int n)
             fscanf(fdata, "%c%c", &a, &b);
 
             if (a == '1')
-                AMatrix.matrix[i][j] == 1;
+                AMatrix.matrix[i][j] = 1;
             else if (a == '0')
-                AMatrix.matrix[i][j] == 0;
+                AMatrix.matrix[i][j] = 0;
         }
     }
 
@@ -51,6 +51,33 @@ void initAMatrix(char *path, int n)
 void freeAMatrix()
 {
     free(AMatrix.matrix);
+}
+
+uint8_t checkEdge(int i, int j)
+{
+    return AMatrix.matrix[i][j];
+}
+
+void addDirectedEdge(int i, int j)
+{
+    AMatrix.matrix[i][j] = 1;
+}
+
+void addUndirectedEdge(int i, int j)
+{
+    addDirectedEdge(i, j);
+    addDirectedEdge(j, i);
+}
+
+void removeDirectedEdge(int i, int j)
+{
+    AMatrix.matrix[i][j] = 0;
+}
+
+void removeUndirectedEdge(int i, int j)
+{
+    removeDirectedEdge(i, j);
+    removeDirectedEdge(j, i);
 }
 
 #endif
