@@ -1,17 +1,13 @@
 #ifndef ADJACENCY_MATRIX
 #define ADJACENCY_MATRIX
 
+#define AMSIZE 1000
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct AdjacencyMatrix
-{
-    int n;
-    uint8_t **matrix;
-} AM;
-
-AM AMatrix;
+uint8_t AMatrix[AMSIZE][AMSIZE];
 
 void initAMatrix(char *path, int n)
 {
@@ -24,10 +20,6 @@ void initAMatrix(char *path, int n)
         exit(1);
     }
 
-    AMatrix = (AM){n};
-
-    AMatrix.matrix = malloc(sizeof(uint8_t) * n * n);
-
     int i, j;
     char a, b;
 
@@ -39,45 +31,40 @@ void initAMatrix(char *path, int n)
             fscanf(fdata, "%c%c", &a, &b);
 
             if (a == '1')
-                AMatrix.matrix[i][j] = 1;
+                AMatrix[i][j] = 1;
             else if (a == '0')
-                AMatrix.matrix[i][j] = 0;
+                AMatrix[i][j] = 0;
         }
     }
 
     fclose(fdata);
 }
 
-void freeAMatrix()
+uint8_t checkAMEdge(int i, int j)
 {
-    free(AMatrix.matrix);
+    return AMatrix[i][j];
 }
 
-uint8_t checkEdge(int i, int j)
+void addAMDirectedEdge(int i, int j)
 {
-    return AMatrix.matrix[i][j];
+    AMatrix[i][j] = 1;
 }
 
-void addDirectedEdge(int i, int j)
+void addAMUndirectedEdge(int i, int j)
 {
-    AMatrix.matrix[i][j] = 1;
+    addAMDirectedEdge(i, j);
+    addAMDirectedEdge(j, i);
 }
 
-void addUndirectedEdge(int i, int j)
+void removeAMDirectedEdge(int i, int j)
 {
-    addDirectedEdge(i, j);
-    addDirectedEdge(j, i);
+    AMatrix[i][j] = 0;
 }
 
-void removeDirectedEdge(int i, int j)
+void removeAMUndirectedEdge(int i, int j)
 {
-    AMatrix.matrix[i][j] = 0;
-}
-
-void removeUndirectedEdge(int i, int j)
-{
-    removeDirectedEdge(i, j);
-    removeDirectedEdge(j, i);
+    removeAMDirectedEdge(i, j);
+    removeAMDirectedEdge(j, i);
 }
 
 #endif
