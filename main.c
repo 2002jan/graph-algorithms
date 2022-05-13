@@ -1,5 +1,6 @@
 #include "representations/AM.h"
 #include "representations/IM.h"
+#include "representations/EL.h"
 
 int main() 
 {
@@ -28,6 +29,20 @@ int main()
     }
 
     freeIMatrix();
+
+    printf("\n\n\n");
+
+    initEdgeList(10, 0);
+
+    EL *current = EdgeListStart;
+
+    while (current != NULL)
+    {
+        printf("%d -> %d\n", current->i, current->j);
+        current = current->next;
+    }
+
+    freeEdgeList();
 
     return 0;
 }
