@@ -1,6 +1,7 @@
 #include "representations/AM.h"
 #include "representations/IM.h"
 #include "representations/EL.h"
+#include "representations/AL.h"
 
 int main() 
 {
@@ -43,6 +44,26 @@ int main()
     }
 
     freeEdgeList();
+
+    printf("\n\n\n");
+
+    initAList(10, 0);
+
+    for(int i = 0; i < 10; i++)
+    {
+        ALI *current = AdjacencyList[i];
+
+        printf("%d -> ", i);
+
+        while (current != NULL)
+        {
+            printf("%d, ", current->j);
+            current = current->next;
+        }
+        printf("\n");
+    }
+
+    freeAdjacencyList();
 
     return 0;
 }
