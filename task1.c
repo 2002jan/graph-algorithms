@@ -22,6 +22,7 @@ int main()
 
     for (i = 1; i <= 20; i++)
     {
+        break;
         int k = 50 * i;
 
         int a, b, c = 0;
@@ -57,12 +58,13 @@ int main()
         printf("%d: %f\n", k, time);
     }
 
-    exportToCsv(ns, times, runs, "AM", "Search");
+    // exportToCsv(ns, times, runs, "AM", "Search");
 
     printf("\n\nAdjacency list\n");
 
     for (i = 1; i <= 20; i++)
     {
+        break;
         int k = 50 * i;
 
         initAList(k, 0);
@@ -94,12 +96,13 @@ int main()
         freeAdjacencyList();
     }
 
-    exportToCsv(ns, times, runs, "AL", "Search");
+    // exportToCsv(ns, times, runs, "AL", "Search");
 
     printf("\n\nIncidence Matrix\n");
 
     for (i = 1; i <= 20; i++)
     {
+        break;
         int k = 50 * i;
 
         initIMatrix(k, 0);
@@ -131,7 +134,7 @@ int main()
         freeIMatrix();
     }
 
-    exportToCsv(ns, times, runs, "IM", "Search");
+    // exportToCsv(ns, times, runs, "IM", "Search");
 
     printf("\n\nEdge list\n");
 

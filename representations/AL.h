@@ -6,7 +6,7 @@
 
 typedef struct AdjacencyListItem
 {
-    int8_t j;
+    int j;
     struct AdjacencyListItem *next;
 } ALI;
 
@@ -20,6 +20,7 @@ void initAList(int n, uint8_t directed)
     int i, j;
 
     AdjacencyList = (ALI **)calloc(n, sizeof(ALI *));
+    AdjacencyListCount = n;
 
     for (i = 0; i < n; i++)
     {
@@ -30,11 +31,12 @@ void initAList(int n, uint8_t directed)
 
         for (; j < n; j++)
         {
-            if (AMatrix[i][j])
+            if (AMatrix[j][i])
             {
                 if (directed)
                     addALEdge(i, j);
-                else {
+                else
+                {
                     addALEdge(i, j);
                     addALEdge(j, i);
                 }
@@ -107,6 +109,64 @@ uint8_t checkALEdge(int i, int j)
     }
 
     return 0;
+}
+
+void topologicalSort()
+{
+
+     int *edgesCounts = calloc(AdjacencyListCount, sizeof(int));
+
+    int *topOrder = calloc(AdjacencyListCount, sizeof(int));
+
+    int i;
+
+    ALI *current;
+
+    for (i = 0; i < AdjacencyListCount; i++)
+    {
+        current = AdjacencyList[i];
+
+        while (current != NULL)
+        {
+            edgesCounts[current->j] += 1;
+
+            current = current->next;
+        }
+    }
+
+    int k, noChange = 0, j = 0, startJ;
+
+    while (!noChange)
+    {
+
+        noChange = 1;
+        startJ = j;
+
+        for (k = 0; k < AdjacencyListCount; k++)
+        {
+            if (edgesCounts[k] == 0)
+            {
+                noChange = 0;
+                topOrder[j++] = k;
+                edgesCounts[k] = -1;
+            }
+        }
+
+        for (k = startJ; k < j; k++)
+        {
+            current = AdjacencyList[topOrder[k]];
+
+            while (current != NULL)
+            {
+                edgesCounts[current->j] -= 1;
+
+                current = current->next;
+            }
+        }
+    }
+
+    free(edgesCounts);
+    free(topOrder);
 }
 
 #endif
